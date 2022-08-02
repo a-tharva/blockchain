@@ -1,9 +1,7 @@
 import hashlib
-from itertools import chain
 import json
 
 from time import time
-from urllib import response
 from uuid import uuid4
 
 from flask import Flask, jsonify
@@ -20,8 +18,8 @@ class Blockchain(object):
         # Create the genesis block
         self.new_block(previous_hash=1, proof=100)
 
-    def new_block(self, int: proof, str: previous_hash = None) -> dict:
-        """ 
+    def new_block(self, proof: int, previous_hash: str = None) -> dict:
+        """     
         Create new block and adds it to chain
         :param proof: <int> The proof given by the Proof of Work algorithm
         :param previous_hash: (Optional) <str> Hash of previous Block
@@ -42,7 +40,7 @@ class Blockchain(object):
         self.chain.append(block)
         return block
 
-    def new_transactions(self, str: sender, str: recipient, int: amount) -> int:
+    def new_transactions(self, sender: str, recipient: str, amount: int) -> int:
         """
         Creates a new transaction to fo into the next mined block
         :param sender: <str> Address of the Sender
@@ -58,7 +56,7 @@ class Blockchain(object):
 
         return self.last_block['index'] + 1
 
-    def proof_of_work(self, int: last_proof) -> int:
+    def proof_of_work(self, last_proof: int) -> int:
         """
         Simple Proof of Work Algorithm:
          - Find a number p' such that hash(pp') contains leading 4 zeroes, where p is the previous p'
@@ -73,7 +71,7 @@ class Blockchain(object):
 
         return proof
 
-    def register_node(self, str: address) -> None:
+    def register_node(self, address: str) -> None:
         """
         Add a new node to the list of nodes
         :param address: <str> Address of node. Eg. 'http://192.168.0.5:5000'
@@ -116,7 +114,7 @@ class Blockchain(object):
 
         return False
 
-    def valid_chain(self, list: chain) -> bool:
+    def valid_chain(self, chain: list) -> bool:
         """
         Determine if a given blockchain is valid
         :param chain: <list> A blockchain
@@ -146,7 +144,7 @@ class Blockchain(object):
         return self.chain[-1]
 
     @staticmethod
-    def valid_proof(int: last_proof, int: proof) -> bool:
+    def valid_proof(last_proof: int, proof: int) -> bool:
         """
         Validates the Proof: Does hash(last_proof, proof) contain 4 leading zeroes?
         :param last_proof: <int> Previous Proof
